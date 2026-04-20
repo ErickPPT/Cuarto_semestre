@@ -1,0 +1,57 @@
+public class PilaDeshacer {
+    class Nodo {
+        String cambio;
+        Nodo siguiente;
+
+        public Nodo(String cambio) {
+            this.cambio = cambio;
+            this.siguiente = null;
+        }
+    }
+
+    private Nodo tope;
+
+    public PilaDeshacer() {
+        tope = null;
+    }
+
+    public boolean estaVacia() {
+        return tope == null;
+    }
+
+    public void push(String cambio) {
+        Nodo nuevo = new Nodo(cambio);
+        nuevo.siguiente = tope;
+        tope = nuevo;
+    }
+
+    public String pop() {
+        if (estaVacia()) {
+            throw new RuntimeException("No hay cambios para deshacer");
+        }
+        String cambio = tope.cambio;
+        tope = tope.siguiente;
+        return cambio;
+    }
+
+    public void mostrar() {
+        Nodo actual = tope;
+        System.out.println("Cambios guardados:");
+        while (actual != null) {
+            System.out.println("- " + actual.cambio);
+            actual = actual.siguiente;
+        }
+    }
+
+    public static void main(String[] args) {
+        PilaDeshacer editor = new PilaDeshacer();
+
+        editor.push("Escribió hola");
+        editor.push("Borró una palabra");
+        editor.push("Cambió color del texto");
+
+        editor.mostrar();
+        System.out.println("Deshacer: " + editor.pop());
+        System.out.println("Deshacer: " + editor.pop());
+    }
+}
