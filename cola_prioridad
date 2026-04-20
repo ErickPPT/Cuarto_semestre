@@ -1,0 +1,78 @@
+public class ColaPrioridadHospital {
+    class Paciente {
+        String nombre;
+        int prioridad; // 1 = urgente, 2 = media, 3 = baja
+
+        public Paciente(String nombre, int prioridad) {
+            this.nombre = nombre;
+            this.prioridad = prioridad;
+        }
+    }
+
+    private Paciente[] cola;
+    private int cantidad;
+
+    public ColaPrioridadHospital(int capacidad) {
+        cola = new Paciente[capacidad];
+        cantidad = 0;
+    }
+
+    public boolean estaVacia() {
+        return cantidad == 0;
+    }
+
+    public boolean estaLlena() {
+        return cantidad == cola.length;
+    }
+
+    public void encolar(String nombre, int prioridad) {
+        if (estaLlena()) {
+            System.out.println("La sala está llena");
+            return;
+        }
+
+        Paciente nuevo = new Paciente(nombre, prioridad);
+        int i = cantidad - 1;
+
+        while (i >= 0 && cola[i].prioridad > prioridad) {
+            cola[i + 1] = cola[i];
+            i--;
+        }
+
+        cola[i + 1] = nuevo;
+        cantidad++;
+    }
+
+    public String desencolar() {
+        if (estaVacia()) {
+            throw new RuntimeException("No hay pacientes");
+        }
+
+        Paciente atendido = cola[0];
+        for (int i = 1; i < cantidad; i++) {
+            cola[i - 1] = cola[i];
+        }
+        cantidad--;
+
+        return atendido.nombre + " (prioridad " + atendido.prioridad + ")";
+    }
+
+    public void mostrar() {
+        System.out.println("Pacientes en espera:");
+        for (int i = 0; i < cantidad; i++) {
+            System.out.println("- " + cola[i].nombre + " | prioridad: " + cola[i].prioridad);
+        }
+    }
+
+    public static void main(String[] args) {
+        ColaPrioridadHospital hospital = new ColaPrioridadHospital(5);
+
+        hospital.encolar("Carlos", 3);
+        hospital.encolar("Lucía", 1);
+        hospital.encolar("Pedro", 2);
+
+        hospital.mostrar();
+        System.out.println("Atender: " + hospital.desencolar());
+        hospital.mostrar();
+    }
+}
