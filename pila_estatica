@@ -1,0 +1,59 @@
+public class PilaAcciones {
+    private String[] pila;
+    private int tope;
+
+    public PilaAcciones(int capacidad) {
+        pila = new String[capacidad];
+        tope = -1;
+    }
+
+    public boolean estaVacia() {
+        return tope == -1;
+    }
+
+    public boolean estaLlena() {
+        return tope == pila.length - 1;
+    }
+
+    public void push(String accion) {
+        if (estaLlena()) {
+            System.out.println("No se pueden guardar más acciones");
+            return;
+        }
+        pila[++tope] = accion;
+    }
+
+    public String pop() {
+        if (estaVacia()) {
+            throw new RuntimeException("No hay acciones guardadas");
+        }
+        return pila[tope--];
+    }
+
+    public String peek() {
+        if (estaVacia()) {
+            throw new RuntimeException("No hay acciones guardadas");
+        }
+        return pila[tope];
+    }
+
+    public void mostrar() {
+        System.out.println("Historial de acciones:");
+        for (int i = tope; i >= 0; i--) {
+            System.out.println("- " + pila[i]);
+        }
+    }
+
+    public static void main(String[] args) {
+        PilaAcciones historial = new PilaAcciones(5);
+
+        historial.push("Abrir archivo");
+        historial.push("Escribir título");
+        historial.push("Guardar documento");
+
+        historial.mostrar();
+        System.out.println("Última acción: " + historial.peek());
+        System.out.println("Eliminar última acción: " + historial.pop());
+        historial.mostrar();
+    }
+}
