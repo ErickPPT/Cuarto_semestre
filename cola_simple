@@ -1,0 +1,53 @@
+public class ColaImpresora {
+    private String[] cola;
+    private int frente;
+    private int fin;
+
+    public ColaImpresora(int capacidad) {
+        cola = new String[capacidad];
+        frente = 0;
+        fin = -1;
+    }
+
+    public boolean estaVacia() {
+        return frente > fin;
+    }
+
+    public boolean estaLlena() {
+        return fin == cola.length - 1;
+    }
+
+    public void encolar(String documento) {
+        if (estaLlena()) {
+            System.out.println("La impresora tiene la cola llena");
+            return;
+        }
+        cola[++fin] = documento;
+    }
+
+    public String desencolar() {
+        if (estaVacia()) {
+            throw new RuntimeException("No hay documentos para imprimir");
+        }
+        return cola[frente++];
+    }
+
+    public void mostrar() {
+        System.out.println("Documentos en cola:");
+        for (int i = frente; i <= fin; i++) {
+            System.out.println("- " + cola[i]);
+        }
+    }
+
+    public static void main(String[] args) {
+        ColaImpresora impresora = new ColaImpresora(5);
+
+        impresora.encolar("Tarea.pdf");
+        impresora.encolar("Foto.jpg");
+        impresora.encolar("Informe.docx");
+
+        impresora.mostrar();
+        System.out.println("Imprimiendo: " + impresora.desencolar());
+        impresora.mostrar();
+    }
+}
