@@ -1,0 +1,67 @@
+public class ColaTurnosCircular {
+    private String[] cola;
+    private int frente;
+    private int fin;
+    private int cantidad;
+
+    public ColaTurnosCircular(int capacidad) {
+        cola = new String[capacidad];
+        frente = 0;
+        fin = 0;
+        cantidad = 0;
+    }
+
+    public boolean estaVacia() {
+        return cantidad == 0;
+    }
+
+    public boolean estaLlena() {
+        return cantidad == cola.length;
+    }
+
+    public void encolar(String persona) {
+        if (estaLlena()) {
+            System.out.println("No hay más espacio en la fila");
+            return;
+        }
+        cola[fin] = persona;
+        fin = (fin + 1) % cola.length;
+        cantidad++;
+    }
+
+    public String desencolar() {
+        if (estaVacia()) {
+            throw new RuntimeException("No hay personas en espera");
+        }
+        String persona = cola[frente];
+        frente = (frente + 1) % cola.length;
+        cantidad--;
+        return persona;
+    }
+
+    public void mostrar() {
+        System.out.println("Turnos actuales:");
+        int i = frente;
+        for (int c = 0; c < cantidad; c++) {
+            System.out.println("- " + cola[i]);
+            i = (i + 1) % cola.length;
+        }
+    }
+
+    public static void main(String[] args) {
+        ColaTurnosCircular turnos = new ColaTurnosCircular(4);
+
+        turnos.encolar("Mario");
+        turnos.encolar("Ana");
+        turnos.encolar("Luis");
+
+        turnos.mostrar();
+
+        System.out.println("Atendido: " + turnos.desencolar());
+
+        turnos.encolar("Carla");
+        turnos.encolar("Pedro");
+
+        turnos.mostrar();
+    }
+}
