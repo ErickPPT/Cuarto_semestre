@@ -1,3 +1,4 @@
+//Sin stack
 public class PilaAcciones {
     private String[] pila;
     private int tope;
@@ -55,5 +56,35 @@ public class PilaAcciones {
         System.out.println("Última acción: " + historial.peek());
         System.out.println("Eliminar última acción: " + historial.pop());
         historial.mostrar();
+    }
+}
+
+
+
+
+
+//Con stack
+import java.util.Stack;
+
+public class PilaAcciones {
+    public static void main(String[] args) {
+        Stack<String> historial = new Stack<>();
+
+        historial.push("Abrir archivo");
+        historial.push("Escribir título");
+        historial.push("Guardar documento");
+
+        System.out.println("Historial de acciones:");
+        for (int i = historial.size() - 1; i >= 0; i--) {
+            System.out.println("- " + historial.get(i));
+        }
+
+        System.out.println("Última acción: " + historial.peek());
+        System.out.println("Eliminar última acción: " + historial.pop());
+
+        System.out.println("Historial después de eliminar:");
+        for (int i = historial.size() - 1; i >= 0; i--) {
+            System.out.println("- " + historial.get(i));
+        }
     }
 }
