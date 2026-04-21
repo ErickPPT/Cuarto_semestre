@@ -55,3 +55,72 @@ public class PilaDeshacer {
         System.out.println("Deshacer: " + editor.pop());
     }
 }
+
+
+
+public class PilaDinamica {
+
+    class Nodo {
+        int dato;
+        Nodo siguiente;
+
+        public Nodo(int dato) {
+            this.dato = dato;
+            this.siguiente = null;
+        }
+    }
+
+    private Nodo top;
+
+    public PilaDinamica() {
+        top = null;
+    }
+
+    public boolean estaVacia() {
+        return top == null;
+    }
+
+    public void push(int dato) {
+        Nodo nuevo = new Nodo(dato);
+        nuevo.siguiente = top;
+        top = nuevo;
+    }
+
+    public int pop() {
+        if (estaVacia()) {
+            throw new RuntimeException("La pila está vacía");
+        }
+        int valor = top.dato;
+        top = top.siguiente;
+        return valor;
+    }
+
+    public int peek() {
+        if (estaVacia()) {
+            throw new RuntimeException("La pila está vacía");
+        }
+        return top.dato;
+    }
+
+    public void mostrar() {
+        System.out.println("Elementos de la pila:");
+        Nodo actual = top;
+        while (actual != null) {
+            System.out.println("- " + actual.dato);
+            actual = actual.siguiente;
+        }
+    }
+
+    public static void main(String[] args) {
+        PilaDinamica pila = new PilaDinamica();
+
+        pila.push(10);
+        pila.push(20);
+        pila.push(30);
+
+        pila.mostrar();
+        System.out.println("Último elemento: " + pila.peek());
+        System.out.println("Elemento eliminado: " + pila.pop());
+        pila.mostrar();
+    }
+}
